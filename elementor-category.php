@@ -29,7 +29,7 @@ function register_oembed_widget( $widgets_manager ) {
 
 	require_once(__DIR__ . '/widgets/index.php');
 
-	$widgets_manager->register( new \Custom_Card_List_Widget() );
+	$widgets_manager->register( new \My_Custom_Elementor_Widget() );
 	$widgets_manager->register( new \Custom_Select_Widget() );
 
 }
