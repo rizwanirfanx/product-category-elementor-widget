@@ -12,126 +12,94 @@ if (!defined('ABSPATH')) {
 }
 
 
-class My_Custom_Elementor_Widget extends \Elementor\Widget_Base
+class Custom_Card_Widget extends \Elementor\Widget_Base
 {
 
 	public function get_name()
 	{
-		return 'my_custom_widget';
+		return 'custom_card_widget';
 	}
 
 	public function get_title()
 	{
-		return 'My Custom Widget';
+		return __('Custom Card Widget', 'elementor-custom-card-widget');
 	}
 
 	public function get_icon()
 	{
-		return 'fa fa-code';
+		return 'eicon-gallery';
 	}
 
 	public function get_categories()
 	{
-		return ['general'];
+		return ['basic'];
 	}
 
 	protected function _register_controls()
 	{
+		global $tws_product_categories;
+		$option_values = array();
+		foreach ($tws_product_categories as $key => $value) {
+			$option_values[$key] = $value['slug'];
+		}
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => esc_html__('List Content', 'elementor-list-widget'),
+				'label' => esc_html__('Omar Category Card', 'elementor-list-widget'),
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
-		// Retrieve product categories
-		$categories =  get_categories(array('taxonomy' => 'product_cat'));
-		$list_items = [];
-		$category_drop_down_items = array();
-		foreach ($categories as $prod_cat) {
-			$category_drop_down_items[$prod_cat->slug] = $prod_cat->name;
-			array_push($list_items, array(
-				'text' => esc_html__($prod_cat->slug, 'elementor-list-widget'),
-				'link' => '',
-			));
-		}
+
 		$this->add_control(
 			'select_option',
 			[
-				'label' => esc_html__('Select Parent Category', 'elementor'),
+				'label' => __('Select Option', 'elementor-custom-select-widget'),
 				'type' => \Elementor\Controls_Manager::SELECT,
-				'options' => $category_drop_down_items,
-				'default' => 'option1', // Set the default value
+				'default' => 'option_1', // Set the default value
+				'options' => $option_values,
 			]
 		);
-		$repeater = new \Elementor\Repeater();
-
-		$repeater->add_control(
+		// Add image control
+		$this->add_control(
 			'image',
 			[
-				'label' => esc_html__('Choose Image', 'textdomain'),
+				'label' => __('Image', 'elementor-custom-card-widget'),
 				'type' => \Elementor\Controls_Manager::MEDIA,
-				'default' => [
-					'url' => \Elementor\Utils::get_placeholder_image_src(),
-				],
-			]
-		);
-		$repeater->add_control(
-			'text',
-			[
-				'label' => esc_html__('Text', 'elementor-list-widget'),
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'placeholder' => esc_html__('List Item', 'elementor-list-widget'),
-				'default' => esc_html__('List Item', 'elementor-list-widget'),
-				'label_block' => true,
-				'dynamic' => [
-					'active' => true,
-				],
 			]
 		);
 
-		$repeater->add_control(
+		// Add title control
+		// Add link control
+		$this->add_control(
 			'link',
 			[
-				'label' => esc_html__('Link', 'elementor-list-widget'),
+				'label' => __('Link', 'elementor-custom-card-widget'),
 				'type' => \Elementor\Controls_Manager::URL,
-				'placeholder' => esc_html__('https://your-link.com', 'elementor-list-widget'),
-				'dynamic' => [
-					'active' => true,
-				],
+				'placeholder' => __('https://your-link.com', 'elementor-custom-card-widget'),
 			]
 		);
-
-		/* End repeater */
-
-		$this->add_control(
-			'list_items',
-			[
-				'label' => esc_html__('List Items', 'elementor-list-widget'),
-				'type' => \Elementor\Controls_Manager::REPEATER,
-				'fields' => $repeater->get_controls(),           /* Use our repeater */
-				'default' => $list_items,
-				'title_field' => '{{{ text }}}',
-			]
-		);
-
 		$this->end_controls_section();
-
-
-
-
-		// Create a repeater control for each product category
 	}
 
 	protected function render()
 	{
-		$categories =  get_categories(array('taxonomy' => 'product_cat'));
-		var_dump($categories);
-		$settings = $this->get_settings_for_display();
-		$categories = $settings['list_items'];
-		foreach ($categories as $category) {
-			var_dump($category);
-			echo '<img src="' . $category['image']['url'] . '"/>';
+		global $tws_product_categories;
+		$settings = $this->get_settings();
+
+		// Output the card with the specified controls
+		echo '<a href="' . esc_url($settings['link']['url']) . '" target="' . esc_attr($settings['link']['is_external'] ? '_blank' : '_self') . '">';
+
+		echo '<div class="custom-card">';
+
+		if (!empty($settings['image']['url'])) {
+//			echo '<img src="' . esc_url($settings['image']['url']) . '" alt="' . esc_attr($settings['title']) . '">';
+			echo '<img loading="lazy" style="height: 220px; width:100%; object-fit: contain;" src="' . esc_attr($settings['image']['url'])  . '" alt="' . esc_attr($settings['title']) . ' Image">';
 		}
+
+		echo '<h2 style="text-align:center;">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</h2>';
+
+		echo '</div>';
+
+		echo '</a>';
 	}
 }
