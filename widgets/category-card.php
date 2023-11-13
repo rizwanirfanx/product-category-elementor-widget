@@ -35,7 +35,7 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 
 		$option_values = array();
 		foreach ($tws_product_categories as $key => $value) {
-			$option_values[$key] = $value['slug'];
+			$option_values[$key] = $value['name'];
 		}
 		$this->start_controls_section(
 			'content_section',
@@ -102,10 +102,10 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 		echo '<div class="custom-card">';
 
 		if (!empty($settings['image']['url'])) {
-			echo '<img loading="lazy" style="height: 220px; width:100%; object-fit: contain;" src="' . esc_attr($settings['image']['url'])  . '" alt="' . esc_attr($settings['title']) . ' Image">';
+			echo '<img loading="lazy" style="height: 220px; width:100%; object-fit: cover;" src="' . esc_attr($settings['image']['url'])  . '" alt="' . esc_attr($settings['title']) . ' Image">';
 		}
 
-		echo '<p style="text-align:center; margin-top:20px">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</p>';
+		echo '<p style="text-align:center; font-size: 18px; margin-top:20px">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</p>';
 
 		echo '</div>';
 

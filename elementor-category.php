@@ -4,7 +4,7 @@
  * Plugin Name: Category Card (Elementor Widget)
  * Description: This Plugin adds Category Card Elementor Widget that also displays the count of item in each category. Image, link is configurable
  * Plugin URI:  https://elementor.com/
- * Version:     1.1.0
+ * Version:     1.4.2
  * Author:      The Web Shark
  * Author URI:  https://thewebshark.io
  */
@@ -30,7 +30,7 @@ function tws_product_categories_function()
 	global $tws_product_cats_id_and_slug;
 	$tws_product_cats_id_and_slug = array();
 	global $test_cats;
-	$categories =  get_categories(array('taxonomy' => 'product_cat'));
+	$categories =  get_categories(array('taxonomy' => 'product_cat', 'hide_empty' => false));
 	$associative_arr_cats = array();
 	foreach ($categories as $category) {
 		$associative_arr_cats[$category->slug] = array(
