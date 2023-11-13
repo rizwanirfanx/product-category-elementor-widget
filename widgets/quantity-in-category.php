@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Plugin Name: Quantity In Category
- * Description: An Elementor widget to render all categories within configurable cards.
- * Version: 1.0
- * Author: The Web Shark
- */
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.

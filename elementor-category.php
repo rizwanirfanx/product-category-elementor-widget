@@ -1,31 +1,18 @@
 <?php
 
 /**
- * Plugin Name: Elementor oEmbed Widget
- * Description: Auto embed any embbedable content from external URLs into Elementor.
+ * Plugin Name: Category Card (Elementor Widget)
+ * Description: This Plugin adds Category Card Elementor Widget that also displays the count of item in each category. Image, link is configurable
  * Plugin URI:  https://elementor.com/
  * Version:     1.0.0
- * Author:      Elementor Developer
- * Author URI:  https://developers.elementor.com/
- * Text Domain: elementor-oembed-widget
- *
- * Elementor tested up to: 3.16.0
- * Elementor Pro tested up to: 3.16.0
+ * Author:      The Web Shark
+ * Author URI:  https://thewebshark.io
  */
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
-/**
- * Register oEmbed Widget.
- *
- * Include widget file and register widget class.
- *
- * @since 1.0.0
- * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
- * @return void
- */
 function register_oembed_widget($widgets_manager)
 {
 
@@ -37,7 +24,6 @@ function register_oembed_widget($widgets_manager)
 add_action('elementor/widgets/register', 'register_oembed_widget');
 
 
-// Define a global variable within a function
 function tws_product_categories_function()
 {
 	global $tws_product_categories;
@@ -54,5 +40,4 @@ function tws_product_categories_function()
 	$tws_product_categories = $associative_arr_cats;
 }
 
-// Hook the function to the init action
 add_action('init', 'tws_product_categories_function');

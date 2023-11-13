@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Plugin Name: Custom Category Cards Widget
- * Description: An Elementor widget to render all categories within configurable cards.
- * Version: 1.0
- * Author: The Web Shark
- */
 
 if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
