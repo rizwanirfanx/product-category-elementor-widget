@@ -4,7 +4,7 @@
  * Plugin Name: Category Card (Elementor Widget)
  * Description: This Plugin adds Category Card Elementor Widget that also displays the count of item in each category. Image, link is configurable
  * Plugin URI:  https://elementor.com/
- * Version:     1.4.2
+ * Version:     1.4.3
  * Author:      The Web Shark
  * Author URI:  https://thewebshark.io
  */

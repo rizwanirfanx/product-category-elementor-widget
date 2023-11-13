@@ -44,6 +44,16 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
+		// Custom Title Control
+		$this->add_control(
+			'custom_text',
+			[
+				'label' => __('Custom Name for Category', 'your-text-domain'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'placeholder' => __('Custom Category Title', 'elementor-custom-card-widget'),
+			]
+		);
+
 
 		$this->add_control(
 			'select_option',
@@ -84,6 +94,7 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 		$current_category_parent_slug = '';
 		$current_category_slug = $settings['select_option'];
 		$current_category_parent_id = $tws_product_categories[$current_category_slug]['parent_id'];
+		$current_category_display_name = empty($settings['custom_text']) ? $tws_product_categories[$settings['select_option']]['name'] : $settings['custom_text'];
 
 		if (empty($settings['link']['url'])) {
 			$product_cat_link = '/shop/?product_cat=';
@@ -105,7 +116,9 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 			echo '<img loading="lazy" style="height: 220px; width:100%; object-fit: cover;" src="' . esc_attr($settings['image']['url'])  . '" alt="' . esc_attr($settings['title']) . ' Image">';
 		}
 
-		echo '<p style="text-align:center; font-size: 18px; margin-top:20px">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</p>';
+		
+
+		echo '<p style="text-align:center; font-size: 18px; margin-top:20px">' . esc_html($current_category_display_name) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</p>';
 
 		echo '</div>';
 
