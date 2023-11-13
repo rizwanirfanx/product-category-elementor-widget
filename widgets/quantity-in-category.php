@@ -59,6 +59,5 @@ class Quantity_In_Category extends \Elementor\Widget_Base
 	protected function render()
 	{
 		global $tws_product_categories;
-		var_dump($tws_product_categories);
 	}
 }

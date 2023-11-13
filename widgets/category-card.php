@@ -32,6 +32,7 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 	protected function _register_controls()
 	{
 		global $tws_product_categories;
+
 		$option_values = array();
 		foreach ($tws_product_categories as $key => $value) {
 			$option_values[$key] = $value['slug'];
@@ -62,14 +63,13 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 			]
 		);
 
-		// Add title control
-		// Add link control
 		$this->add_control(
 			'link',
 			[
-				'label' => __('Link', 'elementor-custom-card-widget'),
+				//				'url' => 
+				'label' => __('Custom Product Category Link', 'elementor-custom-card-widget'),
 				'type' => \Elementor\Controls_Manager::URL,
-				'placeholder' => __('https://your-link.com', 'elementor-custom-card-widget'),
+				'placeholder' => __('https://your-custom-product-cat-link.com', 'elementor-custom-card-widget'),
 			]
 		);
 		$this->end_controls_section();
@@ -77,20 +77,35 @@ class Custom_Card_Widget extends \Elementor\Widget_Base
 
 	protected function render()
 	{
-		global $tws_product_categories;
 		$settings = $this->get_settings();
+		global $tws_product_categories;
+		global $tws_product_cats_id_and_slug;
+		$product_cat_link = $settings['link']['url'];
+		$current_category_parent_slug = '';
+		$current_category_slug = $settings['select_option'];
+		$current_category_parent_id = $tws_product_categories[$current_category_slug]['parent_id'];
+
+		if (empty($settings['link']['url'])) {
+			$product_cat_link = '/shop/?product_cat=';
+			if ($current_category_parent_id != 0) {
+				$current_category_parent_slug = $tws_product_cats_id_and_slug[$current_category_parent_id]['slug'];
+				$product_cat_link .= $current_category_parent_slug;
+				$product_cat_link .= "+";
+			}
+			$product_cat_link .= $current_category_slug;
+		}
+
 
 		// Output the card with the specified controls
-		echo '<a href="' . esc_url($settings['link']['url']) . '" target="' . esc_attr($settings['link']['is_external'] ? '_blank' : '_self') . '">';
+		echo '<a href="' . esc_url($product_cat_link) . '" target="' . esc_attr($settings['link']['is_external'] ? '_blank' : '_self') . '">';
 
 		echo '<div class="custom-card">';
 
 		if (!empty($settings['image']['url'])) {
-//			echo '<img src="' . esc_url($settings['image']['url']) . '" alt="' . esc_attr($settings['title']) . '">';
 			echo '<img loading="lazy" style="height: 220px; width:100%; object-fit: contain;" src="' . esc_attr($settings['image']['url'])  . '" alt="' . esc_attr($settings['title']) . ' Image">';
 		}
 
-		echo '<h2 style="text-align:center;">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</h2>';
+		echo '<p style="text-align:center; margin-top:20px">' . esc_html($tws_product_categories[$settings['select_option']]['name']) . ' (' . esc_html($tws_product_categories[$settings['select_option']]['count']) . ')</p>';
 
 		echo '</div>';
 
